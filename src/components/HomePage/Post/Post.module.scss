@@ -1,0 +1,54 @@
+.post-box {
+  border-radius: 4px;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 21rem;
+  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.25s ease-in 0s, transform 0.25s ease-in 0s;
+
+  .info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    .title {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      color: rgb(33, 37, 41);
+      font-weight: bold;
+    }
+    .sub-title {
+      font-size: 0.875rem;
+      margin-bottom: 1.25rem;
+      color: rgb(73, 80, 87);
+      height: 3.9375rem;
+      line-height: 1.5; // 줄 높이
+    }
+    .sub-info {
+      font-size: 0.75rem;
+      color: rgb(134, 142, 150);
+      line-height: 1.5;
+      .seperator {
+        margin: 0rem 0.25rem;
+      }
+    }
+  }
+}
+
+.post-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0px 12px 20px 0px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 767px) {
+  .post-box {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1056px) {
+  .post-box {
+    width: calc(50% - 2rem);
+  }
+}
