@@ -1,0 +1,13 @@
+html,
+body {
+  height: 100%;
+}
+
+.home {
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  .list {
+    margin: 0px 90px;
+  }
+}
