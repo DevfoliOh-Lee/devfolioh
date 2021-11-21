@@ -6,7 +6,8 @@
       "@components/*": ["src/components/*"],
       "@styles/*": ["src/styles/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@api/*": ["src/api/*"]
+      "@api/*": ["src/api/*"],
+      "@typings/*": ["src/typings/*"]
     }
   }
 }
