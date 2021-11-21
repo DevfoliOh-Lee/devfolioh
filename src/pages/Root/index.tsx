@@ -7,7 +7,7 @@ import Detail from '@pages/Detail';
 function Root() {
     return(
         <Routes>
-            <Route path="/" element={ <Home/> } />
+            <Route path="/" element={ <Home pages={0}/> } />
             <Route path="/post/:postId" element={ <Detail/> } />
         </Routes>
     )

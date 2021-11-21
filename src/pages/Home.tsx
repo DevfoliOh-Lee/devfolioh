@@ -15,30 +15,30 @@ interface HomeProps {
   pages: number;
 }
 
-function Home({ pages }: HomeProps ) {
-    const [ postList, setPostList ] = useState<APostType[]>([]);
+function Home({ pages }: HomeProps) {
+  const [postList, setPostList] = useState<APostType[]>([]);
 
-    useEffect( () => {
-        PostAPI.getAllPosts( pages ).then( ( data ) => {
-            const list: APostType[] = data.results;
-            list.sort( ( a: APostType, b: APostType ) => {
-                return -a.createdAt.localeCompare( b.createdAt );
-            });
-            setPostList( list );
-        });
-    }, [ pages ]);
+  useEffect(() => {
+    PostAPI.getAllPosts(pages).then((data) => {
+      const list: APostType[] = data.results;
+      list.sort((a: APostType, b: APostType) => {
+        return -a.createdAt.localeCompare(b.createdAt);
+      });
+      setPostList(list);
+    });
+  }, [pages]);
 
-    return (
-        <div className={ cx( 'home' ) }>
-            <div className={ cx( 'list' ) }>
-                <MenuBar />
-                <div className={ cx( 'post-list' ) }>
-                    <SubBar />
-                    <PostGrid posts={ postList } />
-                </div>
-            </div>
+  return (
+    <div className={cx('home')}>
+      <div className={cx('list')}>
+        <MenuBar />
+        <div className={cx('post-list')}>
+          <SubBar />
+          <PostGrid posts={postList} />
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default Home;
