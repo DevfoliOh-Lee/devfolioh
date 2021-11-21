@@ -1,14 +1,23 @@
 import { BrowserRouter } from 'react-router-dom';
 import GlobalStyle from '@styles/GlobalStyles';
-import Root from '@pages/Root';
+import { useEffect, useState } from 'react';
+import { PostAPI } from '@api/postAPI';
 
 function App() {
-    return (
-        <BrowserRouter>
-            <GlobalStyle />
-            <Root />
-        </BrowserRouter>
-    );
+  const [totalResult, setTotalResult] = useState<number>(0);
+
+  useEffect(() => {
+    PostAPI.getTotalResult().then((data) => {
+      setTotalResult(data.totalResults);
+    });
+  }, [totalResult]);
+
+  return (
+    <BrowserRouter>
+      <GlobalStyle />
+      <Home pages={totalResult} />
+    </BrowserRouter>
+  );
 }
 
 export default App;
