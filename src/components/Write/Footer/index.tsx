@@ -1,7 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+import { BsArrowLeft } from 'react-icons/bs';
 import classNames from 'classnames/bind';
 import styles from './writeFooter.module.scss';
 import useWindowDimensions from '@hooks/useWindowDemesion';
-import { BsArrowLeft } from 'react-icons/bs';
 
 const cx = classNames.bind(styles);
 
@@ -11,10 +12,11 @@ interface FooterProps {
 
 function WriteFooter({ handleToggleForm }: FooterProps) {
   const { width } = useWindowDimensions();
+  const navigate = useNavigate();
   return (
     <div className={cx('editor__footer')} style={{ width: width >= 1024 ? (width / 2) - 52 : width }}>
       <div className={cx('editor__footer-wrapper')}>
-        <button className={cx("footer__button-exit")}>
+        <button className={cx("footer__button-exit")} onClick={() => navigate('/')}>
           <BsArrowLeft />
           <span>나가기</span>
         </button>

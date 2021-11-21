@@ -45,7 +45,7 @@ function Editor({
             />
             <div className={cx('hr')} />
             <div className={cx('tags__wrapper')}>
-              {tags.map(tagName => <Tag>{tagName}</Tag>)}
+              {tags.map((tagName, index) => <Tag key={`${index + 1}-${tagName}`}>{tagName}</Tag>)}
               <input
                 className={cx('tags__input')}
                 placeholder="태그를 입력하세요"
