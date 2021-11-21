@@ -76,10 +76,11 @@ function Content({ postId }:PostProps ) {
     const onClickBtnDelete = useCallback( async()=>{
         try {
             await DataManager.deletePostOne( postId );
+            alert( '삭제되었습니다.' );
         } catch( e:any ) {
             alert( e.message );
-            window.location.href = '/';
         }
+        window.location.href = '/';
     },[ postId ])
 
     useEffect( ()=>{

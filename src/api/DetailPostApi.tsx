@@ -32,7 +32,7 @@ export default class DataManager {
 
     static async deletePostOne( postId:string ) {
         try {
-            const response = await axios.delete( `${ baseURL }/comments/${ postId }` );
+            const response = await axios.delete( `${ baseURL }/posts/${ postId }` );
             return response.data;
         } catch ( error:any ) {
             throw new Error( error.response.data.message )

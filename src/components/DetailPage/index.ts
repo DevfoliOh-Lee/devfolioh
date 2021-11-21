@@ -1,2 +1,2 @@
-export { default as PostDetail } from './PostDetail';
-export { default as Content } from './Content';
+export { default as PostDetail } from './PostDetail/PostDetail';
+export { default as Content } from './Content/Content';

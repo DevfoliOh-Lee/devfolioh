@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 
 /*Internal */
 import styles from './PostDetail.module.scss';
-import Content from '../Content';
+import Content from '../Content/Content';
 
 const cx = classNames.bind( styles );
 
