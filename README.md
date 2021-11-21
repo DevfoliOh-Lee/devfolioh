@@ -4,6 +4,7 @@
 
 - @YeonJeongLee00
 - @Leebonggu
+- @ahbin-cho
 
 ## Tech Requirement
 
