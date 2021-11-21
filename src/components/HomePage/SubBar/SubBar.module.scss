@@ -1,13 +1,31 @@
 .sub-bar {
   display: flex;
-  // justify-content: space-between
+  justify-content: space-between;
+  margin-top: 1.5rem;
   align-items: center;
-  width: 6rem;
+  position: relative;
+  // width: 6rem;
 
   .sub-bar-left {
     display: flex;
+    align-items: center;
+    position: relative;
+    width: 14rem;
 
     .trending {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgb(134, 142, 150);
+      width: 7rem;
+      height: 3rem;
+      font-size: 1.125rem;
+      span {
+        margin-left: 1.25rem;
+      }
+    }
+
+    .recent {
       border-bottom: 2px solid rgb(52, 58, 64);
       display: flex;
       align-items: center;
@@ -21,20 +39,9 @@
       }
     }
 
-    .recent {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgb(134, 142, 150);
-      width: 7rem;
-      height: 3rem;
-      span {
-        margin-left: 1.25rem;
-      }
-    }
-
     .trending-order {
-      display: flex;
+      display: none;
+      // display: flex;
       align-items: center;
       justify-content: center;
       background-color: white;
@@ -54,16 +61,6 @@
         width: 6rem;
         height: 3rem;
       }
-    }
-  }
-
-  .sub-bar-right {
-    height: 3rem;
-    width: 1rem;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    .etc {
     }
   }
 }
