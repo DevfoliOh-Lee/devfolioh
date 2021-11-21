@@ -3,19 +3,19 @@ import classNames from 'classnames/bind';
 /*Internal */
 import styles from './Home.module.scss';
 import MenuBar from '@components/HomePage/MenuBar';
-import PostGrid from '@components/HomePage/PostGird/PostGrid';
+import PostDetail from '@components/DetailPage/PostDetail';
 
 const cx = classNames.bind( styles );
 
-function Home() {
+function Detail() {
     return (
         <div className={ cx( 'home' ) }>
             <div className={ cx( 'list' ) }>
                 <MenuBar />
-                <PostGrid />
+                <PostDetail/>
             </div>
         </div>
     );
 }
 
-export default Home;
+export default Detail;

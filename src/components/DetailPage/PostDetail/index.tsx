@@ -6,16 +6,16 @@ import { useParams } from 'react-router';
 import styles from './PostDetail.module.scss';
 import Content from '../Content';
 
-const cx = classNames.bind(styles);
+const cx = classNames.bind( styles );
 
 function PostDetail() {
-	const {postId=''} = useParams();
-	return (
+    const { postId='' } = useParams();
+    return (
 
-		<div className={cx('post-detail-div')}>
-			<Content postId={postId}/>
-		</div>
-	);
+        <div className={ cx( 'post-detail-div' ) }>
+            <Content postId={ postId }/>
+        </div>
+    );
 }
 
 export default PostDetail;
