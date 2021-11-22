@@ -39,4 +39,13 @@ export default class DataManager {
         }
     }
 
+    static async deleteCommentOne( commentId:string ) {
+        try {
+            const response = await axios.delete( `${ baseURL }/comments/${ commentId }` );
+            return response.data;
+        } catch ( error:any ) {
+            throw new Error( error.response.data.message )
+        }
+    }
+
 }

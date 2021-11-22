@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import _ from 'lodash';
 import classNames from 'classnames/bind';
 import ReactMarkdown from 'react-markdown';
@@ -17,8 +17,12 @@ type PostProps = {
 };
 
 type Comment = {
-	body: string;
-	createdAt: string;
+    isModify: boolean | false;
+    id: string|'';
+	body: string|'';
+	createdAt: string|'';
+    updatedAt: string|'';
+    postId: string|'';
 }
 
 type Post = { 
@@ -81,7 +85,54 @@ function Content({ postId }:PostProps ) {
             alert( e.message );
         }
         window.location.href = '/';
-    },[ postId ])
+    },[ postId ]);
+
+    const onClickBtnCommentModify = useCallback( ( commentId:string )=>{
+        const modifyComment:Comment = _.find( comments,{ id:commentId });
+        const modifyCommentIdx = _.findIndex( comments,{ id:commentId });
+
+        const modify: Comment = { ...modifyComment, isModify:true, };
+        comments.splice( modifyCommentIdx, 1, modify );
+        setComments( comments );
+    },[ comments ]);
+
+    const onClickBtnCommentDelete = useCallback( async ( commentId:string )=>{
+        try {
+            await DataManager.deleteCommentOne( commentId );
+
+            getComments( postId );
+        } catch( e:any ) {
+            alert( '댓글 삭제 실패했습니다.' );
+        }
+    },[ postId, getComments ]);
+
+    const commentsList = useMemo( ()=>{
+        return(
+            _.map( comments, c=>{
+                return(
+                    <div className={ cx( 'comment-div' ) } key={ c.id }>
+                        <div className={ cx( 'comment-created-date' ) }>
+                            {moment( c.createdAt ).format( 'YYYY-MM-DD HH:mm' )}
+                        </div>
+                        <AiFillSmile className={ cx( 'comment-icons' ) }/>
+                        <div className={ cx( 'comment-body' ) }>
+                            {!c.isModify ? c.body:
+                                (
+                                    <textarea
+                                        value={ c.body }
+                                    />
+                                )
+                            }
+                        </div>
+                        <div className={ cx( 'comment-btns' ) }>
+                            {/* <button onClick={ ()=>{onClickBtnCommentModify( c.id )} }>수정</button> */}
+                            <button onClick={ ()=>{onClickBtnCommentDelete( c.id )} }>삭제</button>
+                        </div>
+                    </div>
+                )
+            })
+        )
+    },[ comments, onClickBtnCommentDelete, onClickBtnCommentModify ])
 
     useEffect( ()=>{
         getPostOne( postId );
@@ -145,18 +196,9 @@ function Content({ postId }:PostProps ) {
                 </div>
                 <div className={ cx( 'comments-div' ) }>
                     {
-                        _.map( comments, c=>{
-                            return(
-                                <div className={ cx( 'comment-div' ) }>
-                                    <div className={ cx( 'comment-created-date' ) }>
-                                        {moment( c.createdAt ).format( 'YYYY-MM-DD HH:mm' )}
-                                    </div>
-                                    <AiFillSmile className={ cx( 'comment-icons' ) }/>
-                                    <div className={ cx( 'comment-body' ) }>{c.body}</div>
-                                </div>
-                            )
-                        })
+                        commentsList
                     }
+                    
                 </div>
             </div>
         </div>

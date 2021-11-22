@@ -162,6 +162,19 @@
                 .comment-body {
                     padding-left: 6px;
                 }
+                .comment-btns {
+                    text-align: right;
+                    button {
+                        border: none;
+                        font-size: 10px;
+                        color: darkgray;
+                        padding: 3px 7px;
+                        border-radius: 3px; 
+                    }
+                    button+button {
+                        margin-left:3px
+                    }
+                }
             }
         }
     }
