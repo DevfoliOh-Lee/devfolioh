@@ -36,9 +36,7 @@ function Home({ pages }: HomeProps) {
           <SubBar />
           <PostGrid posts={postList} />
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Home;

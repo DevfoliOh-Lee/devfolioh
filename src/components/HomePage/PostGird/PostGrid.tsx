@@ -19,9 +19,7 @@ function PostGrid({ posts }: PostGridProps) {
             <Post key={data.id} post={data} />
           ))}
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default PostGrid;
