@@ -5,28 +5,46 @@ import styles from './Home.module.scss';
 import MenuBar from '@components/HomePage/MenuBar';
 import PostGrid from '@components/HomePage/PostGird/PostGrid';
 import SubBar from '@components/HomePage/SubBar';
-import { PostAPI } from '@api/postAPI';
 import { useEffect, useState } from 'react';
-import { APostType } from '@typings/apost.interface';
+import { APostType } from 'src/typings/apost.interface';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { ClipLoader } from 'react-spinners';
+import axios from 'axios';
+const cx = classNames.bind(styles);
 
-const cx = classNames.bind( styles );
-
-interface HomeProps {
-  pages: number;
-}
-
-function Home({ pages }: HomeProps) {
-  const [postList, setPostList] = useState<APostType[]>([]);
+function Home() {
+  let [posts, setPosts] = useState<APostType[]>([]);
+  let [pageNumber, setPageNumber] = useState<number>(1);
+  let [hasMore, setHasMore] = useState<boolean>(true);
 
   useEffect(() => {
-    PostAPI.getAllPosts(pages).then((data) => {
-      const list: APostType[] = data.results;
-      list.sort((a: APostType, b: APostType) => {
-        return -a.createdAt.localeCompare(b.createdAt);
+    axios
+      .get(
+        `https://limitless-sierra-67996.herokuapp.com/v1/posts?limit=12&page=${pageNumber}`,
+      )
+      .then((res) => {
+        setPosts(res.data.results);
+        console.log('res.data', res.data);
+        setPageNumber(pageNumber + 1);
+        if (res.data.totalResults === res.data.results.length) {
+          setHasMore(false);
+        }
       });
-      setPostList(list);
-    });
-  }, [pages]);
+  }, []);
+
+  let getItemList = () => {
+    axios
+      .get(
+        `https://limitless-sierra-67996.herokuapp.com/v1/posts?limit=12&page=${pageNumber}`,
+      )
+      .then((res) => {
+        setPosts([...posts, ...res.data.results]);
+        setPageNumber(pageNumber + 1);
+        if (res.data.totalResults <= posts.length + res.data.results.length) {
+          setHasMore(false);
+        }
+      });
+  };
 
   return (
     <div className={cx('home')}>
@@ -34,7 +52,14 @@ function Home({ pages }: HomeProps) {
         <MenuBar />
         <div className={cx('post-list')}>
           <SubBar />
-          <PostGrid posts={postList} />
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={getItemList}
+            hasMore={hasMore}
+            loader={<ClipLoader />}
+          >
+            <PostGrid pages={posts} />
+          </InfiniteScroll>
         </div>
       </div>
     </div>

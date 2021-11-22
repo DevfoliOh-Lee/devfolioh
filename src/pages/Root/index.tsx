@@ -5,12 +5,12 @@ import Home from '@pages/Home';
 import Detail from '@pages/Detail';
 
 function Root() {
-    return(
-        <Routes>
-            <Route path="/" element={ <Home pages={0}/> } />
-            <Route path="/post/:postId" element={ <Detail/> } />
-        </Routes>
-    )
-};
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/post/:postId" element={<Detail />} />
+    </Routes>
+  );
+}
 
 export default Root;

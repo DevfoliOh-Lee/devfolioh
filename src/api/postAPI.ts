@@ -12,8 +12,8 @@ const requests = {
 };
 
 export const PostAPI = {
-  getAllPosts: (limit: number): Promise<PostType> =>
-    requests.get(`posts?limit=${limit}}`),
+  getAllPosts: (pageNumber: number): Promise<PostType> =>
+    requests.get(`posts?sortBy=asc&limit=12&page=${pageNumber}}`),
   getTotalResult: (): Promise<PostType> => requests.get('posts'),
   getComments: (id: string): Promise<CommnetType> =>
     requests.get(`comments?postId=${id}`),
