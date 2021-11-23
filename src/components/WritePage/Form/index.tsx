@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './form.module.scss';
 import { IoImagesOutline } from 'react-icons/io5';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { useRef } from 'react';
 import { useParams } from 'react-router';
 
