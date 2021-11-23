@@ -24,12 +24,12 @@ function Home() {
       )
       .then((res) => {
         setPosts(res.data.results);
-        console.log('res.data', res.data);
         setPageNumber(pageNumber + 1);
         if (res.data.totalResults === res.data.results.length) {
           setHasMore(false);
         }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let getItemList = () => {

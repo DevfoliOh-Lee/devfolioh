@@ -13,10 +13,13 @@ interface FooterProps {
 function WriteFooter({ handleToggleForm }: FooterProps) {
   const { width } = useWindowDimensions();
   const navigate = useNavigate();
+
+  const handleGoBack = () => navigate(-1);
+
   return (
-    <div className={cx('editor__footer')} style={{ width: width >= 1024 ? (width / 2) - 52 : width }}>
+    <div className={cx('editor__footer')} style={{ width: width >= 1024 ? (width / 2) - 49 : width }}>
       <div className={cx('editor__footer-wrapper')}>
-        <button className={cx("footer__button-exit")} onClick={() => navigate('/')}>
+        <button className={cx("footer__button-exit")} onClick={handleGoBack}>
           <BsArrowLeft />
           <span>나가기</span>
         </button>
