@@ -1,35 +1,32 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './editor.module.scss';
-import WriteFooter from '@components/Write/Footer';
-import Tag from '@components/Write/Tag';
+import WriteFooter from '@components/WritePage/Footer';
+import Tag from '@components/WritePage/Tag';
+import { IForm } from '@typings/write.interface';
 
 const cx = classNames.bind(styles);
 
+
+
 interface EditorProps {
-  handleTitle: React.ChangeEventHandler<HTMLTextAreaElement>;
-  handleBody: React.ChangeEventHandler<HTMLTextAreaElement>;
   handleTag: React.ChangeEventHandler<HTMLInputElement>;
   addTags: React.KeyboardEventHandler<HTMLInputElement>;
   removeTags: React.KeyboardEventHandler<HTMLInputElement>;
+  handleChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   handleToggleForm: () => void;
-  title: string;
-  body: string;
   tag: string;
-  tags: string[];
+  form: IForm,
 }
 
 function Editor({
-  handleTitle,
-  handleBody,
+  handleChange,
   handleTag,
   addTags,
   removeTags,
   handleToggleForm,
-  title,
-  body,
   tag,
-  tags,
+  form
 }: EditorProps) {
   return (
     <div className={cx('editor__container')}>
@@ -38,16 +35,17 @@ function Editor({
           <div className={cx('editor__contents-header')}>
             <textarea
               className={cx('editor__contents-title')}
-              placeholder="제목을 입력하세요"
               name="title"
-              value={title}
-              onChange={handleTitle}
+              placeholder="제목을 입력하세요"
+              value={form.title}
+              onChange={handleChange}
             />
             <div className={cx('hr')} />
             <div className={cx('tags__wrapper')}>
-              {tags.map((tagName, index) => <Tag key={`${index + 1}-${tagName}`}>{tagName}</Tag>)}
+              {form.tags.map((tagName, index) => <Tag key={`${index + 1}-${tagName}`}>{tagName}</Tag>)}
               <input
                 className={cx('tags__input')}
+                name="tag"
                 placeholder="태그를 입력하세요"
                 onChange={handleTag}
                 onKeyPress={addTags}
@@ -56,14 +54,13 @@ function Editor({
               />
             </div>
           </div>
-          {/* <div className={cx('editor__contents-toolbar')}></div> */}
           <div className={cx('body')}>
             <textarea
               className={cx('body__textarea')}
               name="body"
-              value={body}
-              onChange={handleBody}
               placeholder="당신의 이야기를 적어보세요..."
+              value={form.body}
+              onChange={handleChange}
             />
           </div>
         </div>

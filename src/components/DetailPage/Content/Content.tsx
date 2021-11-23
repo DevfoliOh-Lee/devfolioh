@@ -5,15 +5,17 @@ import ReactMarkdown from 'react-markdown';
 import { AiFillSmile } from "react-icons/ai";
 
 /*Internal */
+import { Link } from 'react-router-dom';
 import styles from './Content.module.scss';
 import remarkGfm from 'remark-gfm';
 import DataManager from '@api/DetailPostApi';
 import moment from 'moment';
+import { useNavigate } from 'react-router';
 
-const cx = classNames.bind( styles );
+const cx = classNames.bind(styles);
 
 type PostProps = {
-	postId: string;
+    postId: string;
 };
 
 type Comment = {
@@ -25,66 +27,68 @@ type Comment = {
     postId: string|'';
 }
 
-type Post = { 
-	id: string;
-	tags: [];
-	title: string;
-	body: string;
-	thumbnail:string;
-	createdAt: string;
-	updatedAt: string;
+type Post = {
+    id: string;
+    tags: [];
+    title: string;
+    body: string;
+    thumbnail: string;
+    createdAt: string;
+    updatedAt: string;
 };
 
-function Content({ postId }:PostProps ) {
-    const [ post, setPost ] = useState<Post>();
-    const [ comments, setComments ] = useState<Comment[]>([]);
-    const [ comment, setComment ] = useState<string>( '' );
-    const [ commentCnt, setCommentCnt ] = useState<number>( 0 );
+function Content({ postId }: PostProps) {
+    const navigate = useNavigate();
+    const [post, setPost] = useState<Post>();
+    const [comments, setComments] = useState<Comment[]>([]);
+    const [comment, setComment] = useState<string>('');
+    const [commentCnt, setCommentCnt] = useState<number>(0);
 
-    const getPostOne = useCallback( async ( id )=>{
+    const getPostOne = useCallback(async (id) => {
         try {
-            const postOne = await DataManager.getPostOne( id );
-            setPost( postOne );
-        } catch ( e:any ) {
-            alert( e.message );
+            const postOne = await DataManager.getPostOne(id);
+            setPost(postOne);
+        } catch (e: any) {
+            alert(e.message);
             window.location.href = '/';
         }
-    },[]);
+    }, []);
 
-    const getComments = useCallback( async ( id )=>{
-        const commentArr = await DataManager.getComments( id );
-        setComments( commentArr.results );
-        setCommentCnt( commentArr.totalResults )
-    },[]);
+    const getComments = useCallback(async (id) => {
+        const commentArr = await DataManager.getComments(id);
+        setComments(commentArr.results);
+        setCommentCnt(commentArr.totalResults)
+    }, []);
 
-    const onClickBtnCommentSubmit = useCallback( async ()=>{
+    const onClickBtnCommentSubmit = useCallback(async () => {
 
-        if ( _.isEmpty( comment ) ) {
-            alert( '댓글을 작성해주세요.' );
+        if (_.isEmpty(comment)) {
+            alert('댓글을 작성해주세요.');
 
             return;
         }
 
         const body = {
-            postId:postId,
-            body:comment
+            postId: postId,
+            body: comment
         };
 
-        await DataManager.postCommentOne( body );
+        await DataManager.postCommentOne(body);
 
-        setComment( '' )
-        getComments( postId );
+        setComment('')
+        getComments(postId);
 
-    },[ comment, postId, getComments ]);
+    }, [comment, postId, getComments]);
 
-    const onClickBtnDelete = useCallback( async()=>{
+    const onClickBtnDelete = useCallback(async () => {
         try {
-            await DataManager.deletePostOne( postId );
-            alert( '삭제되었습니다.' );
-        } catch( e:any ) {
-            alert( e.message );
+            await DataManager.deletePostOne(postId);
+            alert('삭제되었습니다.');
+        } catch (e: any) {
+            alert(e.message);
         }
         window.location.href = '/';
+
     },[ postId ]);
 
     const onClickBtnCommentModify = useCallback( ( commentId:string )=>{
@@ -134,24 +138,29 @@ function Content({ postId }:PostProps ) {
         )
     },[ comments, onClickBtnCommentDelete, onClickBtnCommentModify ])
 
-    useEffect( ()=>{
-        getPostOne( postId );
-        getComments( postId );
-    }, [ postId, getPostOne, getComments ]);
+
+    const onClickEditBtn = () => {
+        return navigate(`/write/${postId}`)
+    };
+
+    useEffect(() => {
+        getPostOne(postId);
+        getComments(postId);
+    }, [postId, getPostOne, getComments]);
 
     return (
-        <div className={ cx( 'post-detail-div' ) }>
-            <div className={ cx( 'post-title-h1' ) }>
+        <div className={cx('post-detail-div')}>
+            <div className={cx('post-title-h1')}>
                 {post?.title}
             </div>
-            <div className={ cx( 'post-info' ) }>
-                {moment( post?.createdAt ).format( 'YYYY-MM-DD HH:mm' )}
+            <div className={cx('post-info')}>
+                {moment(post?.createdAt).format('YYYY-MM-DD HH:mm')}
             </div>
-            <div className={ cx( 'post-tags' ) }>
+            <div className={cx('post-tags')}>
                 {
-                    _.map( post?.tags, t=>{
-                        return(
-                            <a className={ cx( 'post-tag-a' ) } href="#">{t}</a>
+                    _.map(post?.tags, t => {
+                        return (
+                            <Link key={`link-${t}-${Math.random()}`} className={cx('post-tag-a')} to="#">{t}</Link>
                         )
                     })
                 }
@@ -165,36 +174,36 @@ function Content({ postId }:PostProps ) {
 				></img>
 			</div>
 		</div> */}
-            <div className={ cx( 'post-body-div' ) }>
+            <div className={cx('post-body-div')}>
                 {
                     post?.thumbnail && (
-                        <img className={ cx( 'post-thumbnail' ) } alt="post-thumbnail" src={ post?.thumbnail }/>
+                        <img className={cx('post-thumbnail')} alt="post-thumbnail" src={post?.thumbnail} />
                     )
                 }
-                <div className={ cx( 'post-content-div' ) }>
-                    <ReactMarkdown remarkPlugins={ [ remarkGfm ] }>
+                <div className={cx('post-content-div')}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {post?.body!}
                     </ReactMarkdown>
                 </div>
             </div>
-            <div className={ cx( 'post-detail-btns' ) }>
-                <button className={ cx( 'post-btn' ) }>수정</button>
-                <button className={ cx( 'post-btn' ) } onClick={ onClickBtnDelete }>삭제</button>
+            <div className={cx('post-detail-btns')}>
+                <button className={cx('post-btn')} onClick={onClickEditBtn}>수정</button>
+                <button className={cx('post-btn')} onClick={onClickBtnDelete}>삭제</button>
             </div>
-            <div className={ cx( 'post-comment-div' ) }>
+            <div className={cx('post-comment-div')}>
                 <h4>
                     {commentCnt} 댓글
                 </h4>
                 <textarea
-                    className={ cx( 'comment-textarea' ) }
+                    className={cx('comment-textarea')}
                     placeholder="댓글을 작성해주세요."
-                    value={ comment }
-                    onChange={ ( e )=>{setComment( e.target.value )} }
+                    value={comment}
+                    onChange={(e) => { setComment(e.target.value) }}
                 />
-                <div className={ cx( 'btn-comment-div' ) }>
-                    <button className={ cx( 'btn-comment-submit','post-btn' ) } onClick={ onClickBtnCommentSubmit }>댓글 작성</button>
+                <div className={cx('btn-comment-div')}>
+                    <button className={cx('btn-comment-submit', 'post-btn')} onClick={onClickBtnCommentSubmit}>댓글 작성</button>
                 </div>
-                <div className={ cx( 'comments-div' ) }>
+                <div className={cx('comments-div')}>
                     {
                         commentsList
                     }

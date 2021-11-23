@@ -20,11 +20,11 @@ const postResponseBody = (response: AxiosResponse) => response;
 const requests = {
   get: (url: string,) => instance.get(url).then(getResponseBody),
   post: (url: string, body: {}) => instance.post(url, body).then(postResponseBody),
-  patch: (url: string, body: {}) => instance.post(url, body).then(postResponseBody),
+  patch: (url: string, body: {}) => instance.post(url, body).then(postResponseBody)
 }
 
 export const WriteAPI = {
   get: (id: string): Promise<IPostData> => requests.get(`posts/${id}`),
   post: (body: IPostData) => requests.post('posts', body),
-  patch: (id: string, body: IPostData): Promise<IPostData> => instance.patch(`posts/${id}`, body)
+  patch: (id: string, body: IPostData): Promise<AxiosResponse> => instance.patch(`posts/${id}`, body)
 }
